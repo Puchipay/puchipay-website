@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>PuchiPay — Discover People Nearby</title>
+
+  <meta
+    name="description"
+    content="PuchiPay is a local-first social community for discovering people nearby, sharing moments, joining live Voice Rooms, chatting and connecting."
+  />
+
+  <meta name="theme-color" content="#00A84F" />
+
+  <style>
+    :root {
+      --green: #00a84f;
+      --green-dark: #007c3a;
+      --green-soft: #eafaf1;
+      --text: #111814;
+      --muted: #66736c;
+      --border: #e6ece8;
+      --background: #ffffff;
+      --surface: #f7faf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* Navigation */
+
+    nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+    }
+
+    .logo {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      background:
+        radial-gradient(circle at 30% 20%, #1fe977, transparent 42%),
+        linear-gradient(145deg, #00b95a, #006d35);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 7px 18px rgba(0, 168, 79, 0.22);
+    }
+
+    .logo svg {
+      width: 29px;
+      height: 29px;
+    }
+
+    .brand span:last-child {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #445149;
+    }
+
+    .nav-links a:hover {
+      color: var(--green);
+    }
+
+    .nav-button {
+      background: var(--green);
+      color: white !important;
+      padding: 11px 19px;
+      border-radius: 999px;
+    }
+
+    /* Hero */
+
+    .hero {
+      overflow: hidden;
+      position: relative;
+      padding: 92px 0 85px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(0, 190, 90, 0.14),
+        transparent 69%
+      );
+      top: -220px;
+      right: -180px;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      align-items: center;
+      gap: 80px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    h1 {
+      font-size: clamp(48px, 6vw, 78px);
+      line-height: 0.99;
+      letter-spacing: -4px;
+      max-width: 760px;
+      margin-bottom: 25px;
+    }
+
+    h1 span {
+      color: var(--green);
+    }
+
+    .hero-copy {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 620px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 23px;
+      border-radius: 15px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 13px 30px rgba(0, 168, 79, 0.22);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+      background: var(--green-dark);
+    }
+
+    .button-secondary {
+      border: 1px solid var(--border);
+      background: white;
+    }
+
+    .button-secondary:hover {
+      background: var(--surface);
+    }
+
+    /* Phone mockup */
+
+    .visual-wrap {
+      min-height: 590px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .visual-bg {
+      width: 440px;
+      height: 440px;
+      background:
+        linear-gradient(
+          140deg,
+          rgba(0, 190, 90, 0.13),
+          rgba(0, 168, 79, 0.03)
+        );
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .phone {
+      width: 302px;
+      height: 590px;
+      border-radius: 47px;
+      background: #101311;
+      padding: 10px;
+      box-shadow:
+        0 38px 90px rgba(0, 0, 0, 0.17),
+        0 0 0 1px rgba(255, 255, 255, 0.45) inset;
+      transform: rotate(2deg);
+      position: relative;
+      z-index: 2;
+    }
+
+    .phone-screen {
+      height: 100%;
+      border-radius: 39px;
+      background: white;
+      overflow: hidden;
+    }
+
+    .phone-status {
+      height: 41px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .phone-header {
+      padding: 8px 16px 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .phone-title {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .phone-location {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid #edf1ee;
+      padding: 0 7px;
+    }
+
+    .tab {
+      font-size: 9px;
+      padding: 9px 0;
+      text-align: center;
+      color: #89948e;
+    }
+
+    .tab.active {
+      color: var(--green);
+      font-weight: 800;
+      border-bottom: 2px solid var(--green);
+    }
+
+    .people-row {
+      padding: 15px 13px 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .person {
+      width: 45px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 39px;
+      height: 39px;
+      margin: auto;
+      border-radius: 50%;
+      background:
+        linear-gradient(135deg, #c6f4d9, #5cc990);
+      border: 2px solid #d2f4e0;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+    }
+
+    .person-name {
+      margin-top: 4px;
+      font-size: 7px;
+      color: #6c7770;
+    }
+
+    .post {
+      margin: 9px 12px;
+      border: 1px solid #edf1ee;
+      border-radius: 17px;
+      padding: 12px;
+    }
+
+    .post-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .post-user .avatar {
+      width: 32px;
+      height: 32px;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .post-name {
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .post-place {
+      color: #89948e;
+      font-size: 7px;
+    }
+
+    .post-text {
+      font-size: 9px;
+      margin: 9px 0;
+      line-height: 1.45;
+    }
+
+    .post-image {
+      height: 124px;
+      border-radius: 13px;
+      background:
+        linear-gradient(
+          150deg,
+          #d9f4e4 0%,
+          #b7e8cc 43%,
+          #64b987 44%,
+          #27854f 100%
+        );
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-image::after {
+      content: "Nearby moments";
+      color: white;
+      font-weight: 800;
+      font-size: 12px;
+      position: absolute;
+      bottom: 11px;
+      left: 12px;
+    }
+
+    .actions {
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-around;
+      color: #738078;
+      font-size: 10px;
+    }
+
+    .bottom-nav {
+      height: 51px;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      background: rgba(255,255,255,.96);
+      border-radius: 0 0 39px 39px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      text-align: center;
+      font-size: 8px;
+      color: #8a948f;
+    }
+
+    .bottom-nav div:nth-child(1) {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .floating-card {
+      background: white;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 50px rgba(0,0,0,.09);
+      border-radius: 20px;
+      position: absolute;
+      z-index: 3;
+      padding: 13px 17px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .floating-one {
+      left: 0;
+      top: 115px;
+    }
+
+    .floating-two {
+      right: -8px;
+      bottom: 120px;
+    }
+
+    .green-icon {
+      display: inline-grid;
+      place-items: center;
+      margin-right: 7px;
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    /* Feature section */
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-soft {
+      background: var(--surface);
+    }
+
+    .section-heading {
+      text-align: center;
+      margin: 0 auto 55px;
+      max-width: 750px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(35px, 5vw, 53px);
+      letter-spacing: -2px;
+      line-height: 1.06;
+      margin-bottom: 14px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 29px;
+      border-radius: 24px;
+      min-height: 226px;
+      transition: .2s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 35px rgba(22, 55, 35, 0.07);
+    }
+
+    .feature-icon {
+      width: 49px;
+      height: 49px;
+      background: var(--green-soft);
+      color: var(--green);
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      margin-bottom: 25px;
+    }
+
+    .feature h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Local-first */
+
+    .local-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .local-art {
+      min-height: 420px;
+      position: relative;
+      background: linear-gradient(145deg, #f1fff7, #dff8e9);
+      border-radius: 35px;
+      overflow: hidden;
+      border: 1px solid #def1e5;
+    }
+
+    .map-circle {
+      width: 330px;
+      height: 330px;
+      border-radius: 50%;
+      border: 1px dashed rgba(0, 168, 79, 0.28);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .map-circle::before,
+    .map-circle::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px dashed rgba(0, 168, 79, 0.22);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .map-circle::before {
+      width: 220px;
+      height: 220px;
+    }
+
+    .map-circle::after {
+      width: 110px;
+      height: 110px;
+    }
+
+    .center-pin {
+      width: 70px;
+      height: 70px;
+      background: var(--green);
+      border-radius: 50% 50% 50% 13px;
+      transform: translate(-50%, -60%) rotate(-45deg);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 18px 32px rgba(0,168,79,.24);
+    }
+
+    .center-pin::after {
+      content: "";
+      width: 25px;
+      height: 25px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .mini-person {
+      position: absolute;
+      width: 47px;
+      height: 47px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 8px 22px rgba(0,0,0,.09);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      border: 3px solid white;
+    }
+
+    .p1 { left: 18%; top: 22%; }
+    .p2 { right: 18%; top: 20%; }
+    .p3 { right: 11%; bottom: 21%; }
+    .p4 { left: 14%; bottom: 18%; }
+
+    .local-copy h2 {
+      font-size: clamp(38px, 5vw, 58px);
+      letter-spacing: -2.5px;
+      line-height: 1.04;
+      margin-bottom: 19px;
+    }
+
+    .local-copy h2 span {
+      color: var(--green);
+    }
+
+    .local-copy p {
+      color: var(--muted);
+      font-size: 17px;
+      margin-bottom: 25px;
+    }
+
+    .checks {
+      display: grid;
+      gap: 12px;
+    }
+
+    .check {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .check-mark {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      color: var(--green);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    /* Download */
+
+    .download-box {
+      border-radius: 35px;
+      background:
+        radial-gradient(circle at 95% 20%, rgba(255,255,255,.17), transparent 35%),
+        linear-gradient(140deg, #006f35, #00ae53);
+      color: white;
+      padding: 60px;
+      display: flex;
+      justify-content: space-between;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .download-box h2 {
+      font-size: clamp(34px, 5vw, 50px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      max-width: 610px;
+      margin-bottom: 15px;
+    }
+
+    .download-box p {
+      color: rgba(255,255,255,.8);
+      max-width: 580px;
+    }
+
+    .testing-badge {
+      white-space: nowrap;
+      background: white;
+      color: #08713c;
+      padding: 15px 20px;
+      border-radius: 14px;
+      font-weight: 800;
+    }
+
+    /* Footer */
+
+    footer {
+      padding: 55px 0 35px;
+    }
+
+    .footer-main {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-brand {
+      max-width: 370px;
+    }
+
+    .footer-brand p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(145px, 1fr));
+      gap: 13px 35px;
+      font-size: 14px;
+      color: #4c5952;
+    }
+
+    .footer-links a:hover {
+      color: var(--green);
+    }
+
+    .copyright {
+      color: #8a948f;
+      font-size: 12px;
+      padding-top: 25px;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 900px) {
+      .nav-links a:not(.nav-button) {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 65px;
+      }
+
+      .hero-grid,
+      .local-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid {
+        gap: 40px;
+      }
+
+      .hero-copy {
+        max-width: 100%;
+      }
+
+      .visual-wrap {
+        min-height: 610px;
+      }
+
+      .features {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .local-copy {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        width: min(100% - 26px, 1180px);
+      }
+
+      nav {
+        height: 68px;
+      }
+
+      .brand {
+        font-size: 22px;
+      }
+
+      .logo {
+        width: 39px;
+        height: 39px;
+      }
+
+      h1 {
+        font-size: 50px;
+        letter-spacing: -2.8px;
+      }
+
+      .hero-copy {
+        font-size: 16px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .visual-wrap {
+        transform: scale(.87);
+        margin: -35px 0;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 75px 0;
+      }
+
+      .section-heading {
+        text-align: left;
+      }
+
+      .local-art {
+        min-height: 350px;
+      }
+
+      .download-box {
+        padding: 38px 27px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-main {
+        flex-direction: column;
+      }
+
+      .footer-links {
+        grid-template-columns: 1fr;
+      }
+
+      .floating-one {
+        left: 15px;
+      }
+
+      .floating-two {
+        right: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="container nav-inner">
+
+    <a class="brand" href="/">
+      <div class="logo">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path
+            fill="white"
+            d="M13 12h32c8 0 14 6 14 14v10c0 8-6 14-14 14H27L14 61V50c-5-2-9-7-9-14V20c0-4 4-8 8-8z"
+          />
+          <rect x="22" y="25" width="5" height="14" rx="2.5" fill="#00A84F"/>
+          <rect x="31" y="20" width="5" height="24" rx="2.5" fill="#00A84F"/>
+          <rect x="40" y="25" width="5" height="14" rx="2.5" fill="#00A84F"/>
+        </svg>
+      </div>
+
+      <div>Puchi<span>Pay</span></div>
+    </a>
+
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#nearby">Nearby</a>
+      <a href="#download">Download</a>
+      <a href="privacy.html">Privacy</a>
+      <a class="nav-button" href="#download">Get PuchiPay</a>
+    </div>
+
+  </div>
+</nav>
+
+
+<main>
+
+  <section class="hero">
+    <div class="container hero-grid">
+
+      <div>
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Local-first social community
+        </div>
+
+        <h1>
+          Find your people
+          <span>nearby.</span>
+        </h1>
+
+        <p class="hero-copy">
+          Discover people and conversations around you, share moments,
+          join live Voice Rooms, chat privately and stay connected with
+          communities nearby and across the world.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#download">
+            Get PuchiPay
+          </a>
+
+          <a class="button button-secondary" href="#features">
+            Explore features
+          </a>
+        </div>
+      </div>
+
+
+      <div class="visual-wrap">
+
+        <div class="visual-bg"></div>
+
+        <div class="floating-card floating-one">
+          <span class="green-icon">◎</span>
+          People nearby
+        </div>
+
+        <div class="floating-card floating-two">
+          <span class="green-icon">🎙</span>
+          Live Voice Rooms
+        </div>
+
+
+        <div class="phone">
+
+          <div class="phone-screen">
+
+            <div class="phone-status">
+              <span>9:41</span>
+              <span>● ● ●</span>
+            </div>
+
+            <div class="phone-header">
+              <div>
+                <div class="phone-title">PuchiPay</div>
+                <div class="phone-location">Lucknow, Uttar Pradesh</div>
+              </div>
+              <div>🔔</div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab active">Nearby</div>
+              <div class="tab">Trending</div>
+              <div class="tab">Global</div>
+              <div class="tab">Following</div>
+            </div>
+
+
+            <div class="people-row">
+
+              <div class="person">
+                <div class="avatar">👩</div>
+                <div class="person-name">Aarohi</div>
+              </div>
+
+              <div class="person">
+                <div class="avatar">👨</div>
+                <div class="person-name">Rohan</div>
+              </div>
+
+              <div class="person">
+                <div class="avatar">👩</div>
+                <div class="person-name">Maya</div>
+              </div>
+
+              <div class="person">
+                <div class="avatar">👨</div>
+                <div class="person-name">Kabir</div>
+              </div>
+
+              <div class="person">
+                <div class="avatar">👩</div>
+                <div class="person-name">Sara</div>
+              </div>
+
+            </div>
+
+
+            <div class="post">
+
+              <div class="post-user">
+                <div class="avatar">👩</div>
+
+                <div>
+                  <div class="post-name">@ananya</div>
+                  <div class="post-place">Hazratganj · 2.4 km away</div>
+                </div>
+              </div>
+
+              <div class="post-text">
+                Found a beautiful little place nearby today 🌿
+                Anyone else been here?
+              </div>
+
+              <div class="post-image"></div>
+
+              <div class="actions">
+                <span>♡ 124</span>
+                <span>◯ 18</span>
+                <span>↗ 12</span>
+                <span>⌑</span>
+              </div>
+
+            </div>
+
+
+            <div class="post">
+
+              <div class="post-user">
+                <div class="avatar">👨</div>
+
+                <div>
+                  <div class="post-name">@aryan</div>
+                  <div class="post-place">Gomti Nagar · 4.1 km away</div>
+                </div>
+              </div>
+
+              <div class="post-text">
+                Voice room tonight — startups, technology and ideas.
+              </div>
+
+            </div>
+
+
+            <div class="bottom-nav">
+              <div>⌂<br>Home</div>
+              <div>◉<br>Rooms</div>
+              <div>＋<br>Create</div>
+              <div>●<br>Chats</div>
+              <div>○<br>Profile</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <section id="features" class="section section-soft">
+
+    <div class="container">
+
+      <div class="section-heading">
+        <h2>
+          Everything you need to connect.
+        </h2>
+
+        <p>
+          Built around real conversations, local discovery and communities.
+        </p>
+      </div>
+
+
+      <div class="features">
+
+        <div class="feature">
+          <div class="feature-icon">⌖</div>
+          <h3>Discover Nearby</h3>
+          <p>
+            Find posts, conversations and people around your location
+            while still being able to explore nationally and globally.
+          </p>
+        </div>
+
+
+        <div class="feature">
+          <div class="feature-icon">🎙</div>
+          <h3>Voice Rooms</h3>
+          <p>
+            Join live conversations, listen, participate and meet communities
+            built around shared interests.
+          </p>
+        </div>
+
+
+        <div class="feature">
+          <div class="feature-icon">✦</div>
+          <h3>Share Moments</h3>
+          <p>
+            Publish text, photos and polls and share what's happening
+            with the people around you.
+          </p>
+        </div>
+
+
+        <div class="feature">
+          <div class="feature-icon">●</div>
+          <h3>Private Chats</h3>
+          <p>
+            Message people directly and continue conversations privately.
+          </p>
+        </div>
+
+
+        <div class="feature">
+          <div class="feature-icon">☎</div>
+          <h3>Calls</h3>
+          <p>
+            Stay connected through direct communication inside PuchiPay.
+          </p>
+        </div>
+
+
+        <div class="feature">
+          <div class="feature-icon">♡</div>
+          <h3>Build Communities</h3>
+          <p>
+            Follow people, interact with posts and discover conversations
+            that matter to you.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <section id="nearby" class="section">
+
+    <div class="container local-grid">
+
+
+      <div class="local-art">
+
+        <div class="map-circle"></div>
+
+        <div class="center-pin"></div>
+
+        <div class="mini-person p1">👨</div>
+        <div class="mini-person p2">👩</div>
+        <div class="mini-person p3">👨</div>
+        <div class="mini-person p4">👩</div>
+
+      </div>
+
+
+      <div class="local-copy">
+
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Local first
+        </div>
+
+        <h2>
+          The world is huge.
+          Start <span>nearby.</span>
+        </h2>
+
+        <p>
+          PuchiPay is designed differently from traditional social networks.
+          Discovery starts with the people and conversations around you,
+          then expands to trending national and global communities.
+        </p>
+
+
+        <div class="checks">
+
+          <div class="check">
+            <div class="check-mark">✓</div>
+            Nearby discovery
+          </div>
+
+          <div class="check">
+            <div class="check-mark">✓</div>
+            Location-aware posts
+          </div>
+
+          <div class="check">
+            <div class="check-mark">✓</div>
+            National trending conversations
+          </div>
+
+          <div class="check">
+            <div class="check-mark">✓</div>
+            Global communities
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <section id="download" class="section section-soft">
+
+    <div class="container">
+
+      <div class="download-box">
+
+        <div>
+          <h2>
+            PuchiPay is getting ready for Android.
+          </h2>
+
+          <p>
+            PuchiPay is currently undergoing closed testing before its
+            public Google Play release.
+          </p>
+        </div>
+
+        <div class="testing-badge">
+          Android closed testing
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-main">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+          <div class="logo">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path
+                fill="white"
+                d="M13 12h32c8 0 14 6 14 14v10c0 8-6 14-14 14H27L14 61V50c-5-2-9-7-9-14V20c0-4 4-8 8-8z"
+              />
+              <rect x="22" y="25" width="5" height="14" rx="2.5" fill="#00A84F"/>
+              <rect x="31" y="20" width="5" height="24" rx="2.5" fill="#00A84F"/>
+              <rect x="40" y="25" width="5" height="14" rx="2.5" fill="#00A84F"/>
+            </svg>
+          </div>
+
+          <div>Puchi<span>Pay</span></div>
+        </div>
+
+        <p>
+          A local-first social community for discovering people,
+          conversations and communities around you.
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <a href="privacy.html">
+          Privacy Policy
+        </a>
+
+        <a href="delete-account.html">
+          Delete Account
+        </a>
+
+        <a href="child-safety.html">
+          Child Safety Standards
+        </a>
+
+        <a href="#features">
+          Features
+        </a>
+
+        <a href="#download">
+          Android
+        </a>
+
+        <a href="#nearby">
+          Nearby
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+      © 2026 PuchiPay. All rights reserved.
+    </div>
+
+  </div>
+
+</footer>
+
+</body>
+</html>
